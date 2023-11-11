@@ -1,15 +1,15 @@
 import "./App.css";
 import {useState} from "react";
-import Register from "./Register";
+import Login from "./Login";
 import Chats from "./Chats";
 
 export default function App() {
 
-  const [user,setUser] = useState();
+  const [user,setUser] = useState(undefined);
 
   if(!user){
-    //return <Register setUser={user=>setUser(user)}></Register>
-    return <Chats user={user}></Chats> //Getting a preview of the chatsPage first
+   //return <Login onAuth={user=>setUser(user)}></Login>
+    return <Chats user={user}></Chats> //Getting a preview of the chatsPage
   }else{
     return <Chats user={user}></Chats>
   }

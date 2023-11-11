@@ -1,20 +1,39 @@
-import { MultiChatWindow, MultiChatSocket, useMultiChatLogic } from 'react-chat-engine-advanced';
+import { useMultiChatLogic, MultiChatSocket , MultiChatWindow  } from "react-chat-engine-advanced";
 
-// 1. SERVER
-const projectId = '1ed59673-1fd6-46ed-9eb9-56239a6a4f82';
-const username = 'Adam_La_Morre';
-const secret = 'pass1234';
 
-export default function Chats () {
-  // 2. HOOK
+
+export default function Chats(props) {
+  const projectId = "3909b22d-70f4-4e25-af34-cedf6bc65542";
+  const username = "Veloxal";
+  const secret = "Veloxal";
+
   const chatProps = useMultiChatLogic(projectId, username, secret);
-
   return (
     <div>
-     
-      <MultiChatWindow {...chatProps} />
-    
-      <MultiChatSocket {...chatProps} />
+    <MultiChatSocket {...chatProps} style={{ height: '100vh' }}  />
+
+    <MultiChatWindow 
+      chats={chatProps.chats}
+      messages={chatProps.messages}
+      activeChatId={chatProps.activeChatId}
+      username={chatProps.username}
+      peopleToInvite={chatProps.peopleToInvite}
+      hasMoreChats={chatProps.hasMoreChats}
+      hasMoreMessages={chatProps.hasMoreMessages}
+      onChatFormSubmit={chatProps.onChatFormSubmit}
+      onChatCardClick={chatProps.onChatCardClick}
+      onChatLoaderShow={chatProps.onChatLoaderShow}
+      onMessageLoaderShow={chatProps.onMessageLoaderShow}
+      onMessageLoaderHide={chatProps.onMessageLoaderHide}
+      onBottomMessageShow={chatProps.onBottomMessageShow}
+      onBottomMessageHide={chatProps.onBottomMessageHide}
+      onMessageFormSubmit={chatProps.onMessageFormSubmit}
+      onInvitePersonClick={chatProps.onInvitePersonClick}
+      onRemovePersonClick={chatProps.onRemovePersonClick}
+      onDeleteChatClick={chatProps.onDeleteChatClick}
+      style={{ height: '100vh' }} 
+    />
     </div>
   );
-};
+}
+

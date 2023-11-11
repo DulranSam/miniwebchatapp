@@ -25,17 +25,16 @@ async function getUsers(req, res) {
 
 async function createUser(req, res) {
   const { username, first_name, last_name, secret, custom_json, email } =
-    req.query;
+    req.body;
   try {
     const response = await Axios.post(
       "https://api.chatengine.io/users/",
       {
-        username,
-        first_name,
-        last_name,
-        secret,
-        custom_json,
-        email,
+        username:username,
+        first_name:first_name,
+        last_name:last_name,
+        secret:secret,
+        email:email,
       },
       {
         headers: {
