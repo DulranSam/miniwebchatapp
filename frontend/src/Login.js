@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-//import "./register.module.css";
 import Axios from "axios";
+import Chats from "./Chats";
 
 export default function Login(props) {
   const [username, setUsername] = useState("");
@@ -9,7 +9,7 @@ export default function Login(props) {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    // Clear error when username or password changes
+    
     setError("");
   }, [username, password]);
 
@@ -18,14 +18,22 @@ export default function Login(props) {
     setLoading(true);
 
     try {
-      const response = await Axios.post("http://localhost:8000/home/login", {
+      const response = await Axios.get("http://localhost:8000/home/user", {
         username,
         password,
       });
+
       props.onAuth({ ...response.data, password });
+      if(!response.status===200){
+        setError(setError("Invalid username or password. Please try again."))
+      }
+
+      // Redirect logic should be handled in the parent component or using React Router
     } catch (error) {
-      setError("Invalid username or password. Please try again.");
-      console.log("Login Error:", error.response ? error.response.data : error.message);
+      console.log(
+        "Login Error:",
+        error.response ? error.response.data : error.message
+      );
     } finally {
       setLoading(false);
     }
