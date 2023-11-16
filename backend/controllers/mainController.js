@@ -2,8 +2,23 @@ require("dotenv").config();
 const privateKey = process.env.privateKey;
 const privateID = process.env.projectID;
 const Axios = require("axios");
+const multer = require("multer");
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "/tmp/my-uploads");
+  },
+  filename: function (req, file, cb) {
+    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+    cb(null, file.fieldname + "-" + uniqueSuffix);
+  },
+});
+const upload = multer({ storage: storage });
 
 async function getUsers(req, res) {
+  if (req.file) {
+    upload.single("photo");
+  }
+
   try {
     const response = await Axios.get("https://api.chatengine.io/users/", {
       headers: {
@@ -25,16 +40,16 @@ async function getUsers(req, res) {
 
 async function createUser(req, res) {
   const { username, first_name, last_name, secret, custom_json, email } =
-    req.body;
+    req.query;
   try {
     const response = await Axios.post(
       "https://api.chatengine.io/users/",
       {
-        username:username,
-        first_name:first_name,
-        last_name:last_name,
-        secret:secret,
-        email:email,
+        username: username,
+        first_name: first_name,
+        last_name: last_name,
+        secret: secret,
+        email: email,
       },
       {
         headers: {

@@ -17,5 +17,6 @@ router
   .delete(idController.deletebyID);
 
 router.route("/user").get(userController.getUserSpecific);
+router.route("/chats").get(userController.getChats);
 
 module.exports = router;

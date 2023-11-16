@@ -2,6 +2,8 @@ require("dotenv").config();
 const privateKey = process.env.privateKey;
 const privateID = process.env.projectID;
 const Axios = require("axios");
+var jwt = require("jsonwebtoken");
+var token = jwt.sign({ foo: "bar" }, "shhhhh");
 
 async function getUserSpecific(req, res) {
   const { username, secret } = req.body;
@@ -25,18 +27,20 @@ async function getUserSpecific(req, res) {
   }
 }
 
-async function CreateChat(){
-  const { username, secret,title,is_direct_chat} = req.query;
+async function CreateChat() {
+  const { username, secret, title, is_direct_chat } = req.query;
 
   try {
-    const r = await Axios.post("https://api.chatengine.io/users/me/", {
+    const r = await Axios.post(`https://api.chatengine.io/chats/`, {
       headers: {
         "Project-ID": privateID,
         username: username,
         password: secret,
-      },data:{
-        title,is_direct_chat
-      }
+      },
+      data: {
+        title,
+        is_direct_chat,
+      },
     })
       .then((r) => {
         res.json(r.data);
@@ -47,11 +51,10 @@ async function CreateChat(){
   } catch (err) {
     console.error(err);
   }
-};
+}
 
-
-async function getChats(){
-  const { username, secret,title,is_direct_chat} = req.query;
+async function getChats() {
+  const { username, secret, title, is_direct_chat } = req.query;
 
   try {
     const r = await Axios.get("https://api.chatengine.io/users/me/", {
@@ -59,7 +62,7 @@ async function getChats(){
         "Project-ID": privateID,
         username: username,
         password: secret,
-      }
+      },
     })
       .then((r) => {
         res.json(r.data);
@@ -72,9 +75,8 @@ async function getChats(){
   }
 }
 
-async function getOrCreateChat(){
-
-  const { username, secret} = req.query;
+async function getOrCreateChat() {
+  const { username, secret } = req.query;
 
   try {
     const r = await Axios.get("https://api.chatengine.io/chats/", {
@@ -82,7 +84,7 @@ async function getOrCreateChat(){
         "Project-ID": privateID,
         username: username,
         password: secret,
-      }
+      },
     })
       .then((r) => {
         res.json(r.data);
@@ -95,17 +97,18 @@ async function getOrCreateChat(){
   }
 }
 
-
-async function latestChats(){
-
+async function latestChats() {
   try {
-    const r = await Axios.get("https://api.chatengine.io/chats/latest/{{chat_count}}/", {
-      headers: {
-        "Project-ID": privateID,
-        username: username,
-        password: secret,
+    const r = await Axios.get(
+      "https://api.chatengine.io/chats/latest/{{chat_count}}/",
+      {
+        headers: {
+          "Project-ID": privateID,
+          username: username,
+          password: secret,
+        },
       }
-    })
+    )
       .then((r) => {
         res.json(r.data);
       })
@@ -117,14 +120,14 @@ async function latestChats(){
   }
 }
 
-async function chatsDetails(){
+async function chatsDetails() {
   try {
     const r = await Axios.get("https://api.chatengine.io/chats/{{chat_id}}/", {
       headers: {
         "Project-ID": privateID,
         username: username,
         password: secret,
-      }
+      },
     })
       .then((r) => {
         res.json(r.data);
@@ -137,4 +140,11 @@ async function chatsDetails(){
   }
 }
 
-module.exports = {getUserSpecific,CreateChat,getChats};
+module.exports = {
+  getUserSpecific,
+  CreateChat,
+  getChats,
+  getOrCreateChat,
+  latestChats,
+  chatsDetails,
+};

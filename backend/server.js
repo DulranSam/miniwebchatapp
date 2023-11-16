@@ -25,6 +25,7 @@ app.use("*", (req, res) => {
     res.type("txt").send("404 Error");
   }
 });
+
 async function start() {
   try {
     app.listen(port, console.log(`Servers up on port ${port}`));

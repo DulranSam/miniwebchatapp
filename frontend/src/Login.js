@@ -4,28 +4,29 @@ import Chats from "./Chats";
 
 export default function Login(props) {
   const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [secret, setSecret] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
   useEffect(() => {
-    
     setError("");
-  }, [username, password]);
+  }, [username, secret]);
 
   const onLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
 
     try {
-      const response = await Axios.get("http://localhost:8000/home/user", {
+      const response = await Axios.post("http://localhost:8000/home/user", {
         username,
-        password,
+        secret,
       });
 
-      props.onAuth({ ...response.data, password });
-      if(!response.status===200){
-        setError(setError("Invalid username or password. Please try again."))
+      props.onAuth({ ...response.data, secret });
+      if (response.status !== 200) {
+        setError("Invalid username or secret. Please try again.");
+      } else {
+        return <Chats user={username} secret={secret}></Chats>;
       }
 
       // Redirect logic should be handled in the parent component or using React Router
@@ -61,7 +62,7 @@ export default function Login(props) {
               placeholder="Enter Password"
               required
               name="password"
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e) => setSecret(e.target.value)}
             />
           </div>
           {error && <p style={{ color: "red" }}>{error}</p>}
