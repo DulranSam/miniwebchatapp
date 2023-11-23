@@ -9,6 +9,7 @@ export default function Register(props) {
   const [first_name, setFirstName] = useState("");
   const [last_name, setLastName] = useState("");
   const [secret, setSecret] = useState("");
+  const [status, setStatus] = useState("");
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -23,19 +24,28 @@ export default function Register(props) {
 
   const UserContext = createContext();
 
-  const onSignup = (e) => {
+  const onSignup = async (e) => {
+    e.preventDefault();
+
     setLoading(true);
     try {
-      e.preventDefault();
-      Axios.post("http://localhost:8000/home", {
-        username,
-        secret,
-        email,
-        first_name,
-        last_name,
+      const response = await Axios.post("http://localhost:8000/home", {
+        username: username,
+        secret: secret,
+        email: email,
+        first_name: first_name,
+        last_name: last_name,
       })
-        .then((r) => props.onAuth({ ...r.data, secret }))
-        .catch((e) => setError(JSON.stringify(e.response.data)));
+        .then((r) => {
+          if (r.status === 200) {
+            setStatus(`User ${username} created`);
+          } else {
+            setStatus(`Error while creating ${username}`);
+          }
+        })
+        .catch((e) => {
+          setStatus(`${e}`);
+        });
     } catch (err) {
       console.error(err);
     }
@@ -112,9 +122,8 @@ export default function Register(props) {
           </div>
           <div className="column"></div>
           <p>{error}</p>
-          <button type="submit">
-            {loading === true ? "Loading..." : "Submit"}
-          </button>
+          <p>{status === "" ? "" : status}</p>
+          <button type="submit">{loading ? "Loading..." : "Submit"}</button>
         </form>
       </section>
     </div>

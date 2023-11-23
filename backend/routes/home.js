@@ -8,7 +8,8 @@ router
   .route("/")
   .get(mainController.getUsers)
   .post(mainController.createUser)
-  .put(mainController.updateUser);
+  .put(mainController.updateUser)
+  .delete(mainController.createUser);
 
 router
   .route("/:id")
@@ -17,6 +18,9 @@ router
   .delete(idController.deletebyID);
 
 router.route("/user").get(userController.getUserSpecific);
-router.route("/chats").get(userController.getChats);
+router
+  .route("/chats")
+  .get(userController.getOrCreateChat) //userController endpoints not fully connected
+  .post(userController.CreateChat);
 
 module.exports = router;

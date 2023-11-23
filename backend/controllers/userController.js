@@ -2,14 +2,12 @@ require("dotenv").config();
 const privateKey = process.env.privateKey;
 const privateID = process.env.projectID;
 const Axios = require("axios");
-var jwt = require("jsonwebtoken");
-var token = jwt.sign({ foo: "bar" }, "shhhhh");
 
 async function getUserSpecific(req, res) {
   const { username, secret } = req.body;
 
   try {
-    const r = await Axios.get("https://api.chatengine.io/users/me/", {
+    const r = await Axios.post("https://api.chatengine.io/users/me/", {
       headers: {
         "Project-ID": privateID,
         username: username,

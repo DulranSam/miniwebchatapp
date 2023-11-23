@@ -39,8 +39,7 @@ async function getUsers(req, res) {
 }
 
 async function createUser(req, res) {
-  const { username, first_name, last_name, secret, custom_json, email } =
-    req.query;
+  const { username, first_name, last_name, secret, email } = req.body;
   try {
     const response = await Axios.post(
       "https://api.chatengine.io/users/",
@@ -75,6 +74,34 @@ async function updateUser(req, res) {
   try {
     const response = await Axios.put(
       "https://api.chatengine.io/users/",
+      {
+        username,
+        secret,
+      },
+      {
+        headers: {
+          "PRIVATE-KEY": privateKey,
+        },
+      }
+    );
+
+    if (response.status >= 200 && response.status < 300) {
+      res.status(response.status).json(response.data);
+    } else {
+      console.error(`Error: ${response.status} - ${response.statusText}`);
+      res.status(response.status).json({ error: "Failed to create user" });
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+}
+
+async function deleteUser() {
+  const { id } = req.body;
+  try {
+    const response = await Axios.put(
+      `https://api.chatengine.io/users/${id}/`,
       {
         username,
         secret,

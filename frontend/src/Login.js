@@ -7,9 +7,10 @@ export default function Login(props) {
   const [secret, setSecret] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [user, setUser] = useState();
 
   useEffect(() => {
-    setError("");
+    console.log(`${username} <- Username\n${secret} <- Password`);
   }, [username, secret]);
 
   const onLogin = async (e) => {
@@ -17,19 +18,26 @@ export default function Login(props) {
     setLoading(true);
 
     try {
-      const response = await Axios.post("http://localhost:8000/home/user", {
+      const response = await Axios.get("http://localhost:8000/home/user", {
         username,
         secret,
       });
 
-      props.onAuth({ ...response.data, secret });
-      if (response.status !== 200) {
-        setError("Invalid username or secret. Please try again.");
+      if (response.status === 200) {
+        const user = {
+          first_name: response.data.first_name,
+          last_name: response.data.last_name,
+          email: response.email,
+          username: response.email,
+          secret: response.password,
+          avatar: response.data.avatar,
+          custom_json: {},
+          is_online: true,
+        };
+        setUser(user);
       } else {
-        return <Chats user={username} secret={secret}></Chats>;
+        setError("Invalid username or secret. Please try again.");
       }
-
-      // Redirect logic should be handled in the parent component or using React Router
     } catch (error) {
       console.log(
         "Login Error:",
