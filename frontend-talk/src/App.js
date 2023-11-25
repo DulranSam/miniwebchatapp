@@ -1,19 +1,22 @@
 import React, { useState } from "react";
 import Register from "./Register";
 import Talk from "talkjs";
+import "./App.css";
 
 const App = () => {
   const [user, setUser] = useState();
 
   if (!user) {
-    <Register
-      auth={(user) => {
-        setUser(user);
-      }}
-    ></Register>;
-    //<Talk user={user}></Talk>;
+    return (
+      <Register
+        auth={(user) => {
+          setUser(user);
+        }}
+      ></Register>
+    );
+    //return <Talk user={user}></Talk>;
   } else {
-    <Talk user={user}></Talk>;
+    return <Talk user={user}></Talk>;
   }
 };
 

@@ -1,18 +1,26 @@
 import "./App.css";
 import { useState } from "react";
-import AuthPage from "./AuthPage";
-import Chats from "./Chats";
+import Login from "./Login";
+import Register from "./Register";
 
 export default function App() {
+  const [hasAccout, setHasAccount] = useState(false);
   const { user, setUser } = useState();
-
-  if (!user) {
-    //return <AuthPage onAuth={(user) => setUser(user)}></AuthPage>; //User Registers
-    return <Chats user={user}></Chats>;
-    //return <Login onAuth={(user) => setUser(user)}></Login>;
-    //return <Chats user={user}></Chats>;
-  } else {
-    return <Chats user={user}></Chats>;
-    //return <Chats user={user}></Chats> //Registered User redirected to ChatsPage
-  }
+  return (
+    <div>
+      {hasAccout ? (
+        <Login
+          onHasAccount={() => {
+            setHasAccount(true);
+          }}
+        ></Login>
+      ) : (
+        <Register
+          onHasAccount={() => {
+            setHasAccount(false);
+          }}
+        ></Register>
+      )}
+    </div>
+  );
 }

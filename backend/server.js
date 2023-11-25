@@ -6,11 +6,13 @@ const fs = require("fs");
 const path = require("path");
 const cors = require("cors");
 const home = require("./routes/home");
+const talk = require("./routes/talk");
 
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.json());
-app.use(cors());
+app.use(cors()); //2 frontends so allowing access from anywhere(no restriction)
 app.use("/home", home);
+app.use("/talk", talk);
 if (!fs.existsSync(path.join(__dirname, "public"))) {
   fs.mkdirSync(path.join(__dirname, "public"));
 }
