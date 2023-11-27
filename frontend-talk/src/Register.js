@@ -8,6 +8,7 @@ export default function Register(props) {
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [photo, setPhoto] = useState();
 
   const onSignup = async (e) => {
     e.preventDefault();
@@ -19,6 +20,7 @@ export default function Register(props) {
         first_name,
         last_name,
         email,
+        photo,
       });
 
       if (response.status === 200) {
@@ -80,7 +82,16 @@ export default function Register(props) {
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
-          <div className="column"></div>
+          <div className="column">
+            <label>
+              <input
+                onChange={(e) => {
+                  setPhoto(e.target.files[0]);
+                }}
+                type="file"
+              ></input>
+            </label>
+          </div>
           <p>{error}</p>
           <button type="submit">{loading ? "Loading..." : "Submit"}</button>
         </form>

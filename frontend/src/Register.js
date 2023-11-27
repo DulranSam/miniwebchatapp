@@ -1,6 +1,8 @@
 import React, { useEffect, createContext, useRef } from "react";
+import { Outlet, Link } from "react-router-dom";
 import Axios from "axios";
 import { useState } from "react";
+import Chats from "./Chats";
 //import styles from "./register.module.css";
 //import Login from "./Login";
 
@@ -39,6 +41,8 @@ export default function Register(props) {
         .then((r) => {
           if (r.status === 200) {
             setStatus(`User ${username} created`);
+            const newUser = props.auth({ ...r.data, secret });
+            console.log(newUser);
           } else {
             setStatus(`Error while creating ${username}`);
           }

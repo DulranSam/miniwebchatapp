@@ -73,6 +73,7 @@ export default function Login(props) {
               onChange={(e) => setSecret(e.target.value)}
             />
           </div>
+          <p>{user}</p>
           {error && <p style={{ color: "red" }}>{error}</p>}
           <button type="submit" disabled={loading}>
             {loading ? "Logging in..." : "Login"}

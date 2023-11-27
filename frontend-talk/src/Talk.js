@@ -1,5 +1,6 @@
 import Talk from "talkjs";
 import { useEffect, useState, useRef } from "react";
+import Axios from "axios";
 
 function TalkJS(props) {
   const chatboxEl = useRef();
@@ -12,13 +13,22 @@ function TalkJS(props) {
       await Talk.ready;
 
       currentUser = new Talk.User({
-        id: props.user.username,
-        name: `${props.user.first_name} ${props.user.last_name}`,
-        email: props.user.email,
-        photoUrl: "",
+        id: "Yumeth",
+        name: "Yumeth fr",
+        email: "ambatukam@gmail.com",
         welcomeMessage: "Hello!",
         role: "default",
       });
+
+      /* {
+    id: props.user.username,
+    name: `${props.user.first_name} ${props.user.last_name}`,
+    email: props.user.email,
+    photoUrl: "",
+    welcomeMessage: "Hello!",
+    role: "default",
+  }
+  */
 
       const otherUser = new Talk.User({
         id: "2",

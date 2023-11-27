@@ -55,14 +55,13 @@ async function createUser(req, res) {
           "PRIVATE-KEY": privateKey,
         },
       }
-    );
-
-    if (response.status >= 200 && response.status < 300) {
-      res.status(response.status).json(response.data);
-    } else {
-      console.error(`Error: ${response.status} - ${response.statusText}`);
-      res.status(response.status).json({ error: "Failed to create user" });
-    }
+    )
+      .then((r) => {
+        return res.status(200).json({ Alert: "User Created" });
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Internal Server Error" });
