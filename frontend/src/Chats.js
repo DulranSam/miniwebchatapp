@@ -7,22 +7,18 @@ import {
 import { ChatEngine } from "react-chat-engine";
 
 export default function Chats(props) {
-  const projectId = process.env.REACT_APP_PROJECT_ID;
+  const projectId = process.env.REACT_APP_CHAT_ENGINE_CHAT_ID;
   const { username, secret } = props.user; // Destructure user object
-  const usernamex = "yumeth";
-  const userPass = "yumeth123";
 
   const chatProps = useMultiChatLogic(projectId, username, secret);
 
   return (
-    <ChatEngine
-      projectId={chatProps.projectId}
-      userName={chatProps.username}
-      userSecret={chatProps.secret}
-    />
+    <div style={{ height: "100vh", width: "100vw" }}>
+      <ChatEngine
+        projectID={chatProps.projectId}
+        userName={chatProps.username}
+        userSecret={chatProps.secret}
+      />
+    </div>
   );
 }
-
-// projectID={chatProps.projectId}
-// userName={chatProps.username}
-// userSecret={chatProps.secret}

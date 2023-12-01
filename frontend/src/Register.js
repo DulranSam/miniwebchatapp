@@ -16,44 +16,32 @@ export default function Register(props) {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    localStorage.setItem("username", username);
-    localStorage.setItem("secret", secret);
-  }, [username, secret]);
-
-  const usernameVal = useRef(username);
-  const secretVal = useRef(secret);
-
-  const UserContext = createContext();
-
   const onSignup = async (e) => {
     e.preventDefault();
 
-    setLoading(true);
     try {
+      setLoading(true);
+
       const response = await Axios.post("http://localhost:8000/home", {
         username: username,
         secret: secret,
         email: email,
         first_name: first_name,
         last_name: last_name,
-      })
-        .then((r) => {
-          if (r.status === 200) {
-            setStatus(`User ${username} created`);
-            const newUser = props.auth({ ...r.data, secret });
-            console.log(newUser);
-          } else {
-            setStatus(`Error while creating ${username}`);
-          }
-        })
-        .catch((e) => {
-          setStatus(`${e}`);
-        });
+      });
+
+      if (response.status === 200) {
+        setStatus(`User ${username} created`);
+        const newUser = props.auth({ ...response.data.user, secret });
+        console.log(newUser);
+      } else {
+        setError(`Error while creating ${username}`);
+      }
     } catch (err) {
-      console.error(err);
+      setError(`${err.message}`); // Display a more user-friendly error message
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   return (
@@ -72,7 +60,6 @@ export default function Register(props) {
               onChange={(e) => {
                 setUsername(e.target.value);
               }}
-              ref={usernameVal}
             />
           </div>
           <div className="input-box">
@@ -109,7 +96,6 @@ export default function Register(props) {
               onChange={(e) => {
                 setSecret(e.target.value);
               }}
-              ref={secretVal}
             />
           </div>
           <div className="input-box">
@@ -127,7 +113,9 @@ export default function Register(props) {
           <div className="column"></div>
           <p>{error}</p>
           <p>{status === "" ? "" : status}</p>
-          <button type="submit">{loading ? "Loading..." : "Submit"}</button>
+          <button type="submit" disabled={loading}>
+            {loading ? "Loading..." : "Submit"}
+          </button>
         </form>
       </section>
     </div>

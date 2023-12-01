@@ -28,12 +28,4 @@ app.use("*", (req, res) => {
   }
 });
 
-async function start() {
-  try {
-    app.listen(port, console.log(`Servers up on port ${port}`));
-  } catch (err) {
-    console.error(err);
-  }
-}
-
-start();
+app.listen(port, console.log(`Servers up on port ${port}`));

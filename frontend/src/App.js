@@ -5,7 +5,7 @@ import Register from "./Register";
 import Chats from "./Chats";
 
 export default function App() {
-  const [hasAccout, setHasAccount] = useState(false);
+  // const [hasAccout, setHasAccount] = useState(false);
   const [user, setUser] = useState();
 
   if (!user) {

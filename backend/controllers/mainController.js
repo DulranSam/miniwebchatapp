@@ -124,4 +124,4 @@ async function deleteUser() {
   }
 }
 
-module.exports = { getUsers, createUser, updateUser };
+module.exports = { getUsers, createUser, updateUser, deleteUser };
