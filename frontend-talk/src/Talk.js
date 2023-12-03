@@ -15,7 +15,7 @@ function TalkJS(props) {
       currentUser = new Talk.User({
         id: "Yumeth",
         name: "Yumeth fr",
-        email: "ambatukam@gmail.com",
+        email: "lol@gmail.com",
         welcomeMessage: "Hello!",
         role: "default",
       });
